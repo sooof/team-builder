@@ -3,36 +3,39 @@
 import React, { useState, useEffect  } from "react";
 import axios from 'axios';
 
+const initFormValues = {
+  uname: '',
+  email: '',
+  role: '',
+}
 
-function App() {
-  const [formValues , setFormValues] = useState({
-    uname: '',
-    email: '',
-    role: '',
-  })
+function NumberForm(props){
+  const {values} = props;
 
   const onValuesChange = event => {
     // debugger
     if(/^[a-zA-Z]+$/.test(event.target.value) ){
-      setFormValues({
-        ...formValues,
-        [event.target.name]: event.target.value,
-      })
+      // setFormValues({
+      //   ...values,
+      //   [event.target.name]: event.target.value,
+      // })
+      const name = event.target.name;
+      const value = event.target.value;
     }
 
   }
-const onFormSubmit = event => {
-  event.preventDefault();
-  alert(`submitting ${formValues.email}, ${formValues.uname}, ${formValues.role}`);
-};
+  const onFormSubmit = event => {
+    event.preventDefault();
+    alert(`submitting ${values.email}, ${values.uname}, ${values.role}`);
+  };
 
-  return (
-    <div className="container"> 
-    <h1>Team Builder </h1>
-    <form className='component' onSubmit={onFormSubmit}> 
+
+  return(
+    <div className="container" >
+      <form className='component' onSubmit={onFormSubmit}> 
       <label>Name
         <input 
-                value={formValues.uname}
+                value={values.uname}
                 name='uname'
                 onChange={onValuesChange}
                 placeholder='Enter  Name'
@@ -41,7 +44,7 @@ const onFormSubmit = event => {
       </label>
       <label>Email
         <input 
-              value={formValues.email}
+              value={values.email}
               name='email'
               onChange={onValuesChange}
               placeholder='Enter email' 
@@ -49,7 +52,7 @@ const onFormSubmit = event => {
         <br/>
       </label>
       <label>Role
-        <select value={formValues.role} name='role' onChange={onValuesChange} >
+        <select value={values.role} name='role' onChange={onValuesChange} >
           <option value=''> -- Select a role -- </option>
           <option value="Backend Engineer">Backend Engineer</option>
           <option value="Frontend Engineer"> Frontend Engineer</option>
@@ -64,6 +67,23 @@ const onFormSubmit = event => {
 
 
     </form>
+    </div>
+  )
+}
+
+function App() {
+  const [formValues , setFormValues] = useState('initFormValues')
+  const updateForm = (inputName, inputValue) => {
+
+    setFormValues({ ...formValues, [inputName]: inputValue });
+  }
+
+  return (
+    <div className="container"> 
+    <h1>Team Builder </h1>
+    <NumberForm
+      values={formValues}
+    />
     
   </div>)
 }
